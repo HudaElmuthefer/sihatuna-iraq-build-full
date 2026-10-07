@@ -1,6 +1,7 @@
 # start.ps1 — starts the backend and frontend in the background using the
 # bundled portable Node.js runtime, waits until both respond, then opens
 # the browser. No installation step of any kind runs here.
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $nodeExe = Join-Path $root 'node-runtime\node.exe'
 $backendDir = Join-Path $root 'backend'
@@ -113,7 +114,7 @@ function Wait-Ready($url, $proc, $label, $errorLogPath, $timeoutSeconds) {
         if ($proc.HasExited) {
             Write-Host ""
             Write-Host "[ERROR] $label exited immediately. Last lines of its error log:" -ForegroundColor Red
-            if (Test-Path $errorLogPath) { Get-Content $errorLogPath -Tail 15 | ForEach-Object { Write-Host "    $_" } }
+            if (Test-Path $errorLogPath) { Get-Content $errorLogPath -Tail 15 -Encoding UTF8 | ForEach-Object { Write-Host "    $_" } }
             return $false
         }
         try {
@@ -129,13 +130,13 @@ function Wait-Ready($url, $proc, $label, $errorLogPath, $timeoutSeconds) {
     Write-Host "[ERROR] $label did not respond within $timeoutSeconds seconds." -ForegroundColor Red
     if (Test-Path $errorLogPath) {
         Write-Host "        Last lines of its error log:"
-        Get-Content $errorLogPath -Tail 15 | ForEach-Object { Write-Host "    $_" }
+        Get-Content $errorLogPath -Tail 15 -Encoding UTF8 | ForEach-Object { Write-Host "    $_" }
     }
     return $false
 }
 
-$backendOk = Wait-Ready "http://localhost:8000/api/health" $backendProc "Backend" (Join-Path $logsDir 'backend-error.log') 30
-$frontendOk = Wait-Ready "http://localhost:3000/" $frontendProc "Frontend" (Join-Path $logsDir 'frontend-error.log') 30
+$backendOk = Wait-Ready "http://localhost:8000/api/health" $backendProc "Backend" (Join-Path $logsDir 'backend-error.log') 60
+$frontendOk = Wait-Ready "http://localhost:3000/" $frontendProc "Frontend" (Join-Path $logsDir 'frontend-error.log') 60
 
 if (-not ($backendOk -and $frontendOk)) {
     exit 1
