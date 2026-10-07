@@ -1,0 +1,18 @@
+# Real secrets — never commit this. Copy backend/.env.example instead.
+backend/.env
+
+# Runtime logs and PID files, written by start.ps1/stop.ps1.
+logs/
+
+# Runtime-only data (uploaded files, local backups) — created automatically
+# by the app on first use; never part of the release itself.
+backend/uploads/
+backend/backups/
+
+# OS junk
+Thumbs.db
+.DS_Store
+
+# Note: backend/node_modules is intentionally NOT excluded here — this
+# release ships pre-installed production dependencies so the server never
+# needs to run npm install.
