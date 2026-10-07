@@ -1,0 +1,13 @@
+# backend/services/ocr/requirements.txt
+#
+# PaddleOCR (+ its PaddlePaddle deep-learning-framework dependency) for
+# backend/services/ocr/paddle_ocr_runner.py — invoked as a subprocess from
+# backend/agents/ocrAgent.js. CPU-only build deliberately (no GPU expected on
+# a typical hospital server or Docker host) — this alone is still a large
+# download (paddlepaddle's CPU wheel is several hundred MB).
+#
+# Install locally (Windows/dev):
+#   python -m pip install -r backend/services/ocr/requirements.txt
+# Installed automatically inside the Docker image — see Dockerfile.
+paddlepaddle==3.0.0
+paddleocr==2.9.1
