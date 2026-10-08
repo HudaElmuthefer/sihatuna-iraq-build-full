@@ -8,6 +8,7 @@ logs/
 # by the app on first use; never part of the release itself.
 backend/uploads/
 backend/backups/
+backend/data/audit-log.json
 
 # OS junk
 Thumbs.db
