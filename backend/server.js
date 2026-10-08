@@ -124,6 +124,7 @@ router.get('/health', async (req, res) => {
 });
 
 router.use(require('./routes/hospitalsRoutes'));
+router.use(require('./routes/dashboardRoutes'));
 router.use(require('./routes/brandingRoutes'));
 router.use(require('./routes/dicomWebhookRoutes'));
 router.use(require('./routes/invoiceReaderRoutes'));
